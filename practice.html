@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Saved by https://github.com/ivangolubykh/2016_JavaScript_level_1_training -->
+  <title>JavaScript. Уровень 1</title>
+</head>
+<body>
+
+<script type="text/javascript">
+// Практика.
+// Практика.
+// Практика.
+
+function addUser() {
+  // Проверка ввода на валидность не включена, т.к. выходит за рамки задания.
+  var firstName = prompt('Введите своё Имя:');
+  var lastName = prompt('Введите свою Фамилию:');
+  var birthDay = prompt('Введите дату своего рождения:');
+  var phones = [];
+  do {
+    phones.push( prompt('Введите свой телефон:') );
+    if (!prompt('Введите 1, чтобы добавить еще телефон, или ничего не вводите, чтобы прекратить добавлять свои телефоны:')) {
+       break;
+    }
+  } while (true);
+  return {firstName: firstName, lastName: lastName, birthDay: birthDay, phones: phones}
+}
+
+
+var users = [];
+// Добавляю данные первого и второго пользователей:
+users.push( addUser() );
+users.push( addUser() );
+
+// Вывожу данные всех пользователей в консоль:
+
+for (var i = 0; i < users.length; i++) {
+  console.log('Имя: ' + users[i].firstName, ' Фамилия: ' + users[i].lastName, ' Дата рождения: ' + users[i].birthDay, ' Телефоны: ' + users[i].phones.join(', '));
+}
+
+
+</script>
+
+</body>
+</html>
