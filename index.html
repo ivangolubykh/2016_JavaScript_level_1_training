@@ -40,7 +40,25 @@
   console.log(countChar('BbaBBbbaabB', 'a')); // Test
 
 
+// Задание 3 (со *) урока №4. Напишите рекурсивную функцию isEven, определяющую чётность числа.
 
+  function isEven(n) {
+    if (n==0) return true;
+    else if (n==1) return false;
+    else if (n<0) {
+      // n += 2;
+      return isEven(n + 2);
+    }
+    else {
+      // n -= 2;
+      return isEven(n - 2);
+    }
+  }
+// Потестируйте её на 50 и 75. Попробуйте задать ей -1. Почему она ведёт себя таким образом? Можно ли её как-то исправить?
+  console.log( isEven(50) );
+  console.log( isEven(75) );
+  console.log( isEven(-1) );
+// Ответ: Функция ведёт себя таким образом, потому что я так её запрограммировал, заранее зная, что ей могут передать отрицательные числа.
 
 </script>
 
