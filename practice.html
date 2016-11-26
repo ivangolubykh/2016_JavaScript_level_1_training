@@ -38,6 +38,7 @@
 // Задание 2 говорит сделать функцию для вывода всех данных в формате файла .csv
 
   // Пример для Д/з не соответствует спецификации (кавычки не учитываются, разделитель не запятая) - поэтому мой план такой: функция для кодирования текста с кавычками, функция для декодирования текста с кавычками (для последующей расшифровки csv-файла), так же в будущем при расшифровке проверять валидность конца строки - я живу в линуксе и использую \n. Соответственно \n\r при расшифровке заменю на \n, а одиночные \r на \n.
+// https://ru.wikipedia.org/wiki/CSV
 
   function countChar(string, char) {
     var count = 0;
@@ -84,30 +85,42 @@
 
 
 
+  function allPrintCsv(arrUsers) {
+    var arrcsvUsers = []
+    if ( arrUsers.length > 0 ) {
+      for (var i = 0; i < arrUsers.length; i++) {
+        arrcsvUsers[i] = codeTextToCsv( arrUsers[i].firstName ) + ',' + codeTextToCsv( arrUsers[i].lastName ) + ',' + codeTextToCsv( arrUsers[i].birthDay ) + ',';
+        var phones = [];
+        if (arrUsers[i].phones.length > 0) {
+          for (var j = 0; j < arrUsers[i].phones.length; j++) {
+            phones[j] = codeTextToCsv( arrUsers[i].phones[j] );
+          }
 
-  function allPrintCsv() {
+        }
+        arrcsvUsers[i] += codeTextToCsv( phones.join(',') );
+      }
 
+    }
+    else {
+      colsole.log('Кодирование пустого списка пользователей не предусмотрено.');
+    }
+    return arrcsvUsers.join('\n');
 
   }
 
-// Вывожу данные всех пользователей в консоль:
-
-  for (var i = 0; i < users.length; i++) {
-    console.log('Имя: ' + users[i].firstName, ' Фамилия: ' + users[i].lastName, ' Дата рождения: ' + users[i].birthDay, ' Телефоны: ' + users[i].phones.join(', '));
+// Вывожу данные всех пользователей в консоль (для сверки):
+  if ( users.length > 0 ) {
+    for (var i = 0; i < users.length; i++) {
+      console.log('Имя: ' + users[i].firstName, ' Фамилия: ' + users[i].lastName, ' Дата рождения: ' + users[i].birthDay, ' Телефоны: ' + users[i].phones.join(', '));
+    }
   }
 
 
+// Вывожу закодированные в csv данные всех пользователей:
+  console.log( allPrintCsv(users) );
 
 
-
-// function csvFormat(users) {
-//   return users.map(function(user) {
-//     return Object.keys(user).map(function(key) { 
-//       if(typeof user[key] == 'string' || typeof user[key] == 'number') return '"' + user[key] + '"'; 
-//       else return user[key].map(function(phone) { return '"' + phone + '"'; }).join(';');
-//     }).join(';');
-//   }).join('\r\n');
-// }
+// Возможно имеет смысл доп. функции ( countChar() и codeTextToCsv() ) поместить внутрь основной функции allPrintCsv(), пока вся задумка не ясна - не могу спрогнозировать, что и где мне в будущем понадобится.
 
 
 </script>
