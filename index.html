@@ -19,6 +19,17 @@
   }
 
 
+// Задание 1  урока №4. Часть 1: Напишите функцию countBs, которая принимает строку в качестве аргумента, и возвращает количество символов “B”, содержащихся в строке.
+  function countBs(string) {
+    var count = 0;
+    for (var i = 0; i < string.length; i++) {
+      count += (string.charAt(i) == 'B') ? 1 : 0;
+    }
+    return count;
+  }
+
+  console.log(countBs('BbaBBbbaabB')); // Test
+
 
 </script>
 
