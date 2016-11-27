@@ -57,10 +57,10 @@
       newString = '';
       for (i = 0, j = 0; i < string.length; i++, j++) {
         if (string[i] == '"') {
-          newString[j] = '"';
+          newString += '"';
           j++;
         }
-        newString[j] = string[i];
+        newString += string[i];
       }
       string = newString;
     }
