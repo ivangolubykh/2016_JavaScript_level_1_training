@@ -8,57 +8,99 @@
 <body>
 
 <script type="text/javascript">
-  "use strict";
+  'use strict';
 
-// Задание 1  урока №4. Напишите функцию min, принимающую два аргумента, и возвращающую минимальный из них.
-  console.log(min(0, 10)); // → 0 
-  console.log(min(0, -10)); // → -10
+// Задание 1  урока №5. Написать функцию преобразования цвета из 10-ного представления в 16-ный. Функция должна принимать 3 числа от 0 до 255 и возвращать строковый хеш.
 
-  function min(a, b) {
-    return (a < b) ? a : b;
-  }
-
-
-// Задание 2  урока №4. Часть 1: Напишите функцию countBs, которая принимает строку в качестве аргумента, и возвращает количество символов “B”, содержащихся в строке.
-  function countBs(string) {
-    var count = 0;
-    for (var i = 0; i < string.length; i++) {
-      count += (string.charAt(i) == 'B') ? 1 : 0;
+  function colorDecToHex(a, b, c) {
+    function toString(integ) {
+      if (integ < 10) {
+        return integ.toString();
+      }
+      else if (integ == 10) {
+        return 'A';
+      }
+      else if (integ == 11) {
+        return 'B';
+      }
+      else if (integ == 12) {
+        return 'C';
+      }
+      else if (integ == 13) {
+        return 'D';
+      }
+      else if (integ == 14) {
+        return 'E';
+      }
+      else if (integ == 15) {
+        return 'F';
+      }
     }
-    return count;
-  }
-  console.log(countBs('BbaBBbbaabB')); // Test
 
-// Задание 2  урока №4. Часть 2: Искать заданный при вызове функции символ, а не “B”, среди содержащихся в строке.
-  function countChar(string, char) {
-    var count = 0;
-    for (var i = 0; i < string.length; i++) {
-      count += (string.charAt(i) == char) ? 1 : 0;
+    var itog = '';
+    itog += toString(Math.floor(a / 16));
+    itog += toString(a % 16);
+    itog += toString(Math.floor(b / 16));
+    itog += toString(b % 16);
+    itog += toString(Math.floor(c / 16));
+    itog += toString(c % 16);
+    return itog;
+  }
+
+  console.log('A=#' + colorDecToHex(0, 150, 255));
+
+
+// Задание 2 урока №5. Написать функцию, преобразующую число в объект. Передавая на вход число от 0 до 999, мы должны получить на выходе объект, в котором в соответствующих свойствах описаны единицы, десятки и сотни. Например для числа 245 мы должны получить следующий объект: {‘единицы’: 5, ‘десятки’: 4, 'сотни’: 2}. Если число превышает 999, необходимо выдать соответствующее сообщение с помощью console.log и вернуть пустой объект.
+
+  function intToObject(a) {
+    var b = parseFloat(a);
+    var rezult = {}
+    if ( (typeof(a) != 'number') && (isNaN(b)) ) {
+      console.log('Это не число. Недопустимо.');
+      return {};
     }
-    return count;
-  }
-  console.log(countChar('BbaBBbbaabB', 'a')); // Test
-
-
-// Задание 3 (со *) урока №4. Напишите рекурсивную функцию isEven, определяющую чётность числа.
-
-  function isEven(n) {
-    if (n==0) return true;
-    else if (n==1) return false;
-    else if (n<0) {
-      // n += 2;
-      return isEven(n + 2);
+    else if (b%1 > 0) {
+      console.log('Число дробное. Недопустимо.');
+      return {};
+    }
+    else if (b > 999) {
+      console.log('Число превышает 999. Недопустимо.');
+      return {};
+    }
+    else if (b < 0) {
+      console.log('Число отрицательное. Недопустимо.');
+      return {};
     }
     else {
-      // n -= 2;
-      return isEven(n - 2);
+      rezult['единицы'] = b % 10;
+      rezult['десятки'] = Math.floor((b % 100) / 10);
+      rezult['сотни'] = Math.floor((b % 1000) / 100);
+      return rezult;
     }
   }
-// Потестируйте её на 50 и 75. Попробуйте задать ей -1. Почему она ведёт себя таким образом? Можно ли её как-то исправить?
-  console.log( isEven(50) );
-  console.log( isEven(75) );
-  console.log( isEven(-1) );
-// Ответ: Функция ведёт себя таким образом, потому что я так её запрограммировал, заранее зная, что ей могут передать отрицательные числа.
+
+  console.log(intToObject('13.15'));
+  console.log(intToObject(456));
+
+
+// Задание 3* урока №5. Реализовать функцию objectToQueryString(object), которая принимает аргументом объект, возвращает строку.
+
+  function objectToQueryString(object) {
+    var rezult = '';
+    var oneString = true;
+    for (var key in object) {
+      if (oneString) {
+        oneString = false;
+      }
+      else {
+        rezult += '&';
+      }
+      rezult += key + '=' + object[key];
+    }
+    return rezult;
+  }
+  console.log(objectToQueryString({ единицы: 6, десятки: 5, сотни: 4 }))
+
 
 </script>
 
