@@ -6,7 +6,7 @@
 <body>
 <script type="text/javascript">
   'use strict';
-  function isPalindrome(x) {x=x.replace(/[\s,]/g,'').toLowerCase();return x==x.split('').reverse().join('')}
+  function isPalindrome(x) {x=x.replace(/[ ,]/g,'').toLowerCase();return x==x.split('').reverse().join('')}
 // тесты:
   console.log(isPalindrome("level"));                   // logs 'true'
   console.log(isPalindrome("levels"));                  // logs 'false'
