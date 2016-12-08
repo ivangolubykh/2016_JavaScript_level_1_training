@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>isPalindrom</title>
+  <title>isPalindrome</title>
 </head>
 <body>
 <script type="text/javascript">
-  function isPalindrom(str) {return str==str.split('').reverse().join('')}
-  console.log(isPalindrom('aabbaa'));
-  console.log(isPalindrom('aabbaab'));
-  console.log(isPalindrom('aab2baa'));
-  console.log(isPalindrom('aa2bbaa'));
+  'use strict';
+  function isPalindrome(x) {x=x.replace(/[\s,]/g,'').toLowerCase();return x==x.split('').reverse().join('')}
+// тесты:
+  console.log(isPalindrome("level"));                   // logs 'true'
+  console.log(isPalindrome("levels"));                  // logs 'false'
+  console.log(isPalindrome("A car, a man, a maraca"));  // logs 'true'
 </script>
 
 </body>
