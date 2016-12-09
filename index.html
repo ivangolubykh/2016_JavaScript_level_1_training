@@ -24,7 +24,7 @@
   function listToArray(list) {
     var arr = [];
     var i = 0;
-    var listTemp = list
+    var listTemp = list;
 // Принципиально не стал использовать рекурсию, хотя в данном случае она напрашивается, т.к. сама идея подобного неудобного списка придумана выпендрёжниками - любителями всё усложнять заумной рекурсией и делать простые решения извращённым путём.
     while (true) {
       arr[i] = listTemp.value;
@@ -41,6 +41,34 @@
 
   }
 
+
+  Object.prototype.prepend = function(element) {
+    return {'value': element, 'rest': this}
+  }
+
+
+  function nth(list, index) {
+    var i = 0;
+    var listTemp = list;
+    while (true) {
+      if (i == index) {
+        return listTemp.value;
+      }
+      else if (!listTemp.rest) {
+        return undefined;
+        // break;
+      }
+      else {
+        listTemp = listTemp.rest;
+        i++;
+      }
+
+    }
+    // return arr;
+
+  }
+
+
   var list2 = (arrayToList([1, 2, 3]));
   console.log('arrayToList:');
   console.log(list2);
@@ -53,9 +81,16 @@
   var arr2 = (listToArray(list2));
   console.log(arr2);
 
+  console.log('prepend:');
+  list2 = list2.prepend(7);
+  console.log(list2);
+  console.log(list2.rest);
+  console.log(list2.rest.rest);
+  console.log(list2.rest.rest.rest);
+  console.log(list2.rest.rest.rest.rest);
 
-
-
+  console.log('nth:');
+  console.log(nth(list2, 0));
 
 
 // Задание 2 урока №6. Напишите две функции, reverseArray и reverseArrayInPlace. Первая получает массив как аргумент и выдаёт новый массив, с обратным порядком элементов. Вторая работает как оригинальный метод reverse – она меняет порядок элементов на обратный в том массиве, который был ей передан в качестве аргумента. Не используйте стандартный метод reverse.
@@ -72,8 +107,10 @@
     return rezault;
   }
 
+  console.log('reverseArray:');
   console.log(reverseArray([1, 7, 9]));
   var arr1 = [1, 88, 9];
+  console.log('reverseArrayInPlace:');
   console.log(arr1.reverseArrayInPlace());
 
 
