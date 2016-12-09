@@ -10,7 +10,50 @@
 <script type="text/javascript">
   'use strict';
 
-// Задание 1 урока №6. 
+// Задание 1 урока №6. Напишите функцию arrayToList, которая строит такую структуру [список (не путайте с массивом)], получая в качестве аргумента [1, 2, 3], а также функцию listToArray, которая создаёт массив из списка.
+// Также напишите вспомогательную функцию prepend, которая получает элемент и создаёт новый список, где этот элемент добавлен спереди к первоначальному списку, и функцию nth, которая в качестве аргументов принимает список и число, а возвращает элемент на заданной позиции в списке, или же undefined в случае отсутствия такого элемента.
+
+  function arrayToList(arr) {
+    var list = {}
+    arr.reverse().forEach(function(element, index, array) {
+      list = index == 0 ? {'value': element, 'rest': null} : {'value': element, 'rest': list}
+    });
+    return list;
+  }
+
+  function listToArray(list) {
+    var arr = [];
+    var i = 0;
+    var listTemp = list
+// Принципиально не стал использовать рекурсию, хотя в данном случае она напрашивается, т.к. сама идея подобного неудобного списка придумана выпендрёжниками - любителями всё усложнять заумной рекурсией и делать простые решения извращённым путём.
+    while (true) {
+      arr[i] = listTemp.value;
+      if (!listTemp.rest) {
+        break;
+      }
+      else {
+        listTemp = listTemp.rest;
+        i++;
+      }
+
+    }
+    return arr;
+
+  }
+
+  var list2 = (arrayToList([1, 2, 3]));
+  console.log('arrayToList:');
+  console.log(list2);
+  console.log(list2.value);
+  console.log(list2.rest);
+  console.log(list2.rest.rest);
+  console.log(list2.rest.rest.rest);
+
+  console.log('listToArray:');
+  var arr2 = (listToArray(list2));
+  console.log(arr2);
+
+
 
 
 
