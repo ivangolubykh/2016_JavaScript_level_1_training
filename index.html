@@ -10,135 +10,147 @@
 <script type="text/javascript">
   'use strict';
 
-// Задание 1 урока №6. Напишите функцию arrayToList, которая строит такую структуру [список (не путайте с массивом)], получая в качестве аргумента [1, 2, 3], а также функцию listToArray, которая создаёт массив из списка.
-// Также напишите вспомогательную функцию prepend, которая получает элемент и создаёт новый список, где этот элемент добавлен спереди к первоначальному списку, и функцию nth, которая в качестве аргументов принимает список и число, а возвращает элемент на заданной позиции в списке, или же undefined в случае отсутствия такого элемента.
+// Задание 1 урока №7. Создать функцию, генерирующую шахматную доску. При этом можно использовать любые html-тэги по своему желанию. Доска должна быть разленована соответствующим образом, т.е. чередовать черные и белые ячейки. Строки должны нумероваться числами от 1 до 8, столбцы – латинскими буквами A, B, C, D, E, F, G, H.
+// Задание 2 урока №7. Заполнить созданную таблицу буквами, отвечающими за шахматную фигуру, например К-король, Ф – ферзь и тп., причем все фигуры должны стоять на своих местах и быть соответственно черными и белыми.
 
-  function arrayToList(arr) {
-    var list = {}
-    arr.reverse().forEach(function(element, index, array) {
-      list = index == 0 ? {'value': element, 'rest': null} : {'value': element, 'rest': list}
-    });
-    return list;
-  }
+// по скольку есть подозрение, что потом придётся еще и ходить в разные клетки разными фигурами - принято решение использовать цикл в цикле в нанесением на ячейки фигур из двухмерного массива, чтобы можно было легко перерисовать доску с новым содержимым после каждого хода.
 
-  function listToArray(list) {
-    var arr = [];
-    var i = 0;
-    var listTemp = list;
-// Принципиально не стал использовать рекурсию, хотя в данном случае она напрашивается, т.к. сама идея подобного неудобного списка придумана выпендрёжниками - любителями всё усложнять заумной рекурсией и делать простые решения извращённым путём.
-    while (true) {
-      arr[i] = listTemp.value;
-      if (!listTemp.rest) {
-        break;
-      }
-      else {
-        listTemp = listTemp.rest;
-        i++;
-      }
+  function genBoard() {
+    var listCol = [];
+    var listRow = [];
+    var bgcolor1 = 'white';
+    var bgcolor2 = 'black';
+    var figuresLocation = [
+      [
+        {'color': 'white', 'fig': 'Л'},
+        {'color': 'white', 'fig': 'Кн'},
+        {'color': 'white', 'fig': 'С'},
+        {'color': 'white', 'fig': 'Кр'},
+        {'color': 'white', 'fig': 'Ф'},
+        {'color': 'white', 'fig': 'С'},
+        {'color': 'white', 'fig': 'Кн'},
+        {'color': 'white', 'fig': 'Кр'},
+      ],
+      [
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+        {'color': 'white', 'fig': 'П'},
+      ],
+      [
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+      ],
+       [
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+      ],
+       [
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+      ],
+       [
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+        {'color': null, 'fig': null},
+      ],
+      [
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+        {'color': 'black', 'fig': 'П'},
+      ],
+      [
+        {'color': 'black', 'fig': 'Л'},
+        {'color': 'black', 'fig': 'Кн'},
+        {'color': 'black', 'fig': 'С'},
+        {'color': 'black', 'fig': 'Ф'},
+        {'color': 'black', 'fig': 'Кр'},
+        {'color': 'black', 'fig': 'С'},
+        {'color': 'black', 'fig': 'Кн'},
+        {'color': 'black', 'fig': 'Кр'},
+      ],
+    ];
 
-    }
-    return arr;
+    var table = '<table border="1">';
 
-  }
-
-
-  Object.prototype.prepend = function(element) {
-    return {'value': element, 'rest': this}
-  }
-
-
-  function nth(list, index) {
-    var i = 0;
-    var listTemp = list;
-    while (true) {
-      if (i == index) {
-        return listTemp.value;
-      }
-      else if (!listTemp.rest) {
-        return undefined;
-        // break;
-      }
-      else {
-        listTemp = listTemp.rest;
-        i++;
-      }
-
-    }
-    // return arr;
-
-  }
-
-
-  var list2 = (arrayToList([1, 2, 3]));
-  console.log('arrayToList:');
-  console.log(list2);
-  console.log(list2.value);
-  console.log(list2.rest);
-  console.log(list2.rest.rest);
-  console.log(list2.rest.rest.rest);
-
-  console.log('listToArray:');
-  var arr2 = (listToArray(list2));
-  console.log(arr2);
-
-  console.log('prepend:');
-  list2 = list2.prepend(7);
-  console.log(list2);
-  console.log(list2.rest);
-  console.log(list2.rest.rest);
-  console.log(list2.rest.rest.rest);
-  console.log(list2.rest.rest.rest.rest);
-
-  console.log('nth:');
-  console.log(nth(list2, 0));
-
-
-// Задание 2 урока №6. Напишите две функции, reverseArray и reverseArrayInPlace. Первая получает массив как аргумент и выдаёт новый массив, с обратным порядком элементов. Вторая работает как оригинальный метод reverse – она меняет порядок элементов на обратный в том массиве, который был ей передан в качестве аргумента. Не используйте стандартный метод reverse.
-
-  function reverseArray(arr) {
-    return arr.reverseArrayInPlace();
-  }
-
-  Array.prototype.reverseArrayInPlace = function () {
-    var rezault = []
-    for (var i = this.length - 1; i >= 0; i--) {
-      rezault.push(this[i]);
-    }
-    return rezault;
-  }
-
-  console.log('reverseArray:');
-  console.log(reverseArray([1, 7, 9]));
-  var arr1 = [1, 88, 9];
-  console.log('reverseArrayInPlace:');
-  console.log(arr1.reverseArrayInPlace());
-
-
-// Задание 3* урока №6. Реализовать функцию pick(obj, keys), которая принимает аргументами объект и массив строк (названия ключей). Возвращает новый объект, куда вошли все ключи, указанные в массиве keys, и соответствующие значения из объекта obj. Если в объекте obj, нет ключа, указанного в массиве keys, в результирующем объекте этот ключ не должен присутствовать.
-
-  function pick(obj, keys) {
-    var rezault = {};
-    for (var objkey in obj) {
-      keys.forEach(function(element, index, array) {
-        if (objkey == element) {
-          rezault[objkey] = obj[objkey];
+    for (var i=0; i < 10; i++) {
+      table += '<tr height="30px" align="center" valign="center">'
+      for (var j=0; j < 10; j++) {
+        if (((i==0) || (i==9))  && ((j==0)||(j==9))) {
+          table += '<td>&nbsp;</td>'
         }
-      });
+        else if (((i==0) || (i==9)) && (j>0) && (j<9)) {
+          table += '<td>' + String.fromCharCode(('A'.charCodeAt(0) + j - 1)) + '</td>';
+        }
+        else if ((j==0) || (j==9)) {
+          table += '<td>' + i + '</td>';
+        }
+        else if ((j>0) || (j<9)) {
+          table += '<td bgcolor="';
+          if (i%2) {
+          table += j%2 ? bgcolor1 : bgcolor2;
+          }
+          else {
+          table += j%2 ? bgcolor2 : bgcolor1;
+          }
+          table += '" width="30px">';
+
+          if (figuresLocation[i-1][j-1]['fig'] == null) {
+            table += '&nbsp;';
+          }
+          else {
+
+
+          table += figuresLocation[i-1][j-1]['fig'];
+
+
+          }
+          table += '</td>'; 
+        }
+
+      }
+      table += '</tr>'
     }
-    return rezault;
+
+    table += '</table>';
+    document.write(table);
   }
 
-  console.log('pick:');
-  var user = {
-      name: 'Sergey',
-      age: 30,
-      email: 'sergey@gmail.com',
-      friends: ['Sveta', 'Artem']
-  }
-  // console.log(user);
-  console.log(pick(user, ['name'])); // {name: 'Sergey'}
-  console.log(pick(user, ['name', 'second-name'])); // {name: 'Sergey'}
-  console.log(pick(user, ['name', 'friends'])); // {name: 'Sergey', friends:['Sveta', 'Artem']}
+  genBoard();
+
+
 
 
 </script>
