@@ -19,7 +19,9 @@
     var listCol = [];
     var listRow = [];
     var bgcolor1 = 'white';
-    var bgcolor2 = 'black';
+    var bgcolor2 = 'grey';
+    var leftSlider01;
+    var vertSlider01;
     var figuresLocation = [
       [
         {'color': 'white', 'fig': 'Л'},
@@ -103,16 +105,16 @@
       ],
     ];
 
-    var table = '<table border="1">';
+    var table = '<table border="1" >';
 
     for (var i=0; i < 10; i++) {
-      table += '<tr height="30px" align="center" valign="center">'
+      table += '<tr height="60" align="center" valign="center">'
       for (var j=0; j < 10; j++) {
         if (((i==0) || (i==9))  && ((j==0)||(j==9))) {
-          table += '<td>&nbsp;</td>'
+          table += '<td  width="60">&nbsp;</td>'
         }
         else if (((i==0) || (i==9)) && (j>0) && (j<9)) {
-          table += '<td>' + String.fromCharCode(('A'.charCodeAt(0) + j - 1)) + '</td>';
+          table += '<td width="60">' + String.fromCharCode(('A'.charCodeAt(0) + j - 1)) + '</td>';
         }
         else if ((j==0) || (j==9)) {
           table += '<td>' + i + '</td>';
@@ -125,16 +127,40 @@
           else {
           table += j%2 ? bgcolor2 : bgcolor1;
           }
-          table += '" width="30px">';
+          table += '" style="padding: 0px;">';
+
 
           if (figuresLocation[i-1][j-1]['fig'] == null) {
             table += '&nbsp;';
           }
           else {
+            if (figuresLocation[i-1][j-1]['color'] == 'black') {
+              vertSlider01 = 0;
+            }
+            else {
+              vertSlider01 = -60;
+            }
 
+            if (figuresLocation[i-1][j-1]['fig'] == 'П') {
+              leftSlider01 = -300;
+            }
+            else if (figuresLocation[i-1][j-1]['fig'] == 'Л') {
+              leftSlider01 = 0;
+            }
+            else if (figuresLocation[i-1][j-1]['fig'] == 'Кн') {
+              leftSlider01 = -60;
+            }
+            else if (figuresLocation[i-1][j-1]['fig'] == 'С') {
+              leftSlider01 = -120;
+            }
+            else if (figuresLocation[i-1][j-1]['fig'] == 'Ф') {
+              leftSlider01 = -180;
+            }
+            else if (figuresLocation[i-1][j-1]['fig'] == 'Кр') {
+              leftSlider01 = -240;
+            }
 
-          table += figuresLocation[i-1][j-1]['fig'];
-
+            table += '<div style="float: left; overflow: hidden; position: relative; width: 60px; height: 60px; padding: 0px;"><img src="./images/slider_sh_fig.gif" style="position: absolute; top: ' + vertSlider01 + 'px; left: ' + leftSlider01 + 'px;" width="360" height="120"></div>';
 
           }
           table += '</td>'; 
@@ -151,9 +177,8 @@
   genBoard();
 
 
-
-
 </script>
+
 
 </body>
 </html>
